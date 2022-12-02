@@ -75,23 +75,28 @@ class MainActivity : AppCompatActivity() {
 
     fun setUpSocket(){
 
-        socket?.on(Socket.EVENT_CONNECT, onConnect)
+        thread {
+            socket?.on(Socket.EVENT_CONNECT, onConnect)
 //            socket.on(Socket.EVENT_DISCONNECT, onDisconnect)
-        socket?.on(Socket.EVENT_CONNECT_ERROR, onConnectError)
-        socket?.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError)
-        socket?.on("new message", onNewMessage)
+            socket?.on(Socket.EVENT_CONNECT_ERROR, onConnectError)
+            socket?.on(Socket.EVENT_CONNECT_TIMEOUT, onConnectError)
+            socket?.on("new message", onNewMessage)
 //            socket.on("user joined", onUserJoined)
 //            socket.on("user left", onUserLeft)
 //            socket.on("typing", onTyping)
 //            socket.on("stop typing", onStopTyping)
-        socket?.on("login", onLogin)
-        socket?.connect()
+            socket?.on("login", onLogin)
+            socket?.connect()
+        }
     }
 
 
 
      fun attemptLogin(name:String) {
-        socket?.emit("add user", "$name");
+         thread {
+             socket?.emit("add user", "$name");
+
+         }
 
     }
 
@@ -107,23 +112,13 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this,"Login SucessFul",Toast.LENGTH_LONG).show()
             openChat()
         }
-        //        val intent = Intent()
-//        intent.putExtra("username", mUsername)
-//        intent.putExtra("numUsers", numUsers)
-//        setResult(RESULT_OK, intent)
-//        finish()
+
     }
 
     private val onConnect = Emitter.Listener { args ->
-//        val data = args[0] as JSONObject
 
         runOnUiThread { Toast.makeText(this,"connected ",Toast.LENGTH_LONG).show() }
-//        Toast.makeText(this,"Login done user = $numUsers",Toast.LENGTH_LONG).show()
-//        val intent = Intent()
-//        intent.putExtra("username", mUsername)
-//        intent.putExtra("numUsers", numUsers)
-//        setResult(RESULT_OK, intent)
-//        finish()
+
     }
 
 
@@ -131,7 +126,9 @@ class MainActivity : AppCompatActivity() {
 
      fun attemptSend(str:String) {
 
-        socket?.emit("new message", str)
+         thread {
+             socket?.emit("new message", str)
+         }
     }
 
 
@@ -155,14 +152,11 @@ class MainActivity : AppCompatActivity() {
                 username = data.getString("username")
                 message = data.getString("message")
                 chatViewModel.addMessages(Message(username,message,1))
-//                chatFragment.onIncoming(Message(username,message,1));
 
             } catch (e: JSONException) {
                 return@Runnable
             }
 
-            // add the message to view
-//                addMessage(username, message)
         })
     }
 
