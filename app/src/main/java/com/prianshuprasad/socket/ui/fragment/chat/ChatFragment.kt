@@ -5,36 +5,28 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.airbnb.epoxy.EpoxyRecyclerView
 import com.prianshuprasad.socket.R
-import com.prianshuprasad.socket.epoxy.ChatController
-import com.prianshuprasad.socket.model.Message
+import com.prianshuprasad.socket.ui.ViewModel.SocketViewModel
+import com.prianshuprasad.socket.utils.epoxy.ChatController
+import com.prianshuprasad.socket.data.model.Message
 import com.prianshuprasad.socket.ui.activities.MainActivity
-import io.socket.client.On.Handle
 
-class ChatFragment(listner:MainActivity,chatViewModel: ChatViewModel) : Fragment() {
+class ChatFragment(listner:MainActivity,socketViewModel: SocketViewModel) : Fragment() {
 
 
-    private lateinit var viewModel: ChatViewModel
     private lateinit var recyclerView:EpoxyRecyclerView
     private lateinit var send:ImageButton
-    private lateinit var chatController:ChatController
+    private lateinit var chatController: ChatController
     private  var arr:ArrayList<Message> = ArrayList()
     private lateinit var messagebox:EditText
-
-   private val listner= listner
-    private var chatViewModel= chatViewModel
-
-
-
+    private val listner= listner
+    private val socketViewModel= socketViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,9 +48,7 @@ class ChatFragment(listner:MainActivity,chatViewModel: ChatViewModel) : Fragment
 
         send.setOnClickListener {
 
-            listner.attemptSend(messagebox.text.toString())
-            chatViewModel.addMessages(Message("me",messagebox.text.toString(),0))
-
+         socketViewModel.attemptSend(messagebox.text.toString())
             messagebox.setText("")
 
 
@@ -67,7 +57,8 @@ class ChatFragment(listner:MainActivity,chatViewModel: ChatViewModel) : Fragment
 
 
 
-        chatViewModel.getMessages().observeForever{
+
+        socketViewModel.getMessages().observeForever{
 
             arr= it as ArrayList<Message>
             update()
@@ -96,10 +87,10 @@ class ChatFragment(listner:MainActivity,chatViewModel: ChatViewModel) : Fragment
 
 
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+//    override fun onActivityCreated(savedInstanceState: Bundle?) {
+//        super.onActivityCreated(savedInstanceState)
+//        viewModel = ViewModelProvider(this).get(ChatViewModel::class.java)
+//        // TODO: Use the ViewModel
+//    }
 
 }

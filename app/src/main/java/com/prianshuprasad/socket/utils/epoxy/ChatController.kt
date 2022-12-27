@@ -1,7 +1,8 @@
-package com.prianshuprasad.socket.epoxy
+package com.prianshuprasad.socket.utils.epoxy
 
 import com.airbnb.epoxy.EpoxyController
-import com.prianshuprasad.socket.model.Message
+import com.prianshuprasad.socket.data.model.Message
+import com.prianshuprasad.socket.utils.epoxy.ChatModel
 import com.prianshuprasad.socket.ui.fragment.chat.ChatFragment
 
 

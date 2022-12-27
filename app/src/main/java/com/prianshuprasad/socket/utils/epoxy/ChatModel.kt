@@ -1,12 +1,10 @@
-package com.prianshuprasad.socket.epoxy
+package com.prianshuprasad.socket.utils.epoxy
 
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.epoxy.*
 import com.prianshuprasad.socket.R
-import com.prianshuprasad.socket.model.Message
-import com.prianshuprasad.socket.ui.fragment.chat.ChatFragment
 
 
 @EpoxyModelClass(layout = R.layout.first_message)
